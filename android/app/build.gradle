@@ -4,6 +4,9 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Define Kotlin version
+def kotlin_version = "1.5.31" // Update to the latest Kotlin version
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -25,11 +28,11 @@ if (flutterVersionName == null) {
 android {
     namespace "com.example.quiz_app"
     compileSdkVersion 34 // Update to the latest compileSdkVersion
-    buildToolsVersion "31.0.0" // Update to the latest buildToolsVersion
+    buildToolsVersion "34.0.0" // Update to the latest buildToolsVersion
     defaultConfig {
         applicationId "com.example.quiz_app"
         minSdkVersion 21 // Update to the minimum SDK version required by your app
-        targetSdkVersion 31 // Update to the latest targetSdkVersion
+        targetSdkVersion 34 // Update to the latest targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -59,6 +62,3 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Add Kotlin standard library dependency
 }
-
-// Define Kotlin version
-def kotlin_version = "1.5.31" // Update to the latest Kotlin version

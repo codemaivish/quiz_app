@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:quiz_app/screens/color_match_questions.dart'; // Ensure this is the correct path
+import 'package:flutter/foundation.dart';
 
 class TranslateQuestion extends StatefulWidget {
   @override
@@ -12,15 +12,46 @@ class _TranslateQuestionState extends State<TranslateQuestion> {
   final Set<int> selectedOptions = {};
   final FlutterTts flutterTts = FlutterTts();
   final double buttonHeight = 60.0; // Define the button height here
+  final List<String> correctAnswer = ["देर", "आए", "दुरुस्त", "आए"];
 
   void playSound() async {
     await flutterTts.speak("Better late than never");
   }
 
-  void navigateToThirdScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ColorMatchQuestion()),
+  void navigateToThirdScreen(bool isCorrect) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: Text(
+            isCorrect ? 'Correct!' : 'Wrong!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: isCorrect ? Colors.green : Colors.red,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          content: Icon(
+            isCorrect ? Icons.check_circle : Icons.cancel,
+            color: isCorrect ? Colors.green : Colors.red,
+            size: 100,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -76,7 +107,12 @@ class _TranslateQuestionState extends State<TranslateQuestion> {
             height: buttonHeight,
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: navigateToThirdScreen,
+              onPressed: () {
+                List<String> selectedAnswer =
+                    selectedOptions.map((index) => options[index]).toList();
+                bool isCorrect = listEquals(selectedAnswer, correctAnswer);
+                navigateToThirdScreen(isCorrect);
+              },
               icon: Icon(Icons.check),
               label: Padding(
                 padding: const EdgeInsets.all(8.0),
