@@ -1,0 +1,64 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    namespace "com.example.quiz_app"
+    compileSdkVersion 34 // Update to the latest compileSdkVersion
+    buildToolsVersion "31.0.0" // Update to the latest buildToolsVersion
+    defaultConfig {
+        applicationId "com.example.quiz_app"
+        minSdkVersion 21 // Update to the minimum SDK version required by your app
+        targetSdkVersion 31 // Update to the latest targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Example:
+            // signingConfig signingConfigs.release
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Add Kotlin standard library dependency
+}
+
+// Define Kotlin version
+def kotlin_version = "1.5.31" // Update to the latest Kotlin version
